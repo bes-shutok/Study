@@ -5,12 +5,14 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
+import java.io.Serializable;
 import java.util.*;
 
 import static org.testng.Assert.*;
 
 public class HashTableFunctionsTest {
 
+    @SuppressWarnings("ComparatorNotSerializable")
     class ListComparator<T extends Comparable<T>> implements Comparator<List<T>> {
 
         @Override
@@ -178,7 +180,7 @@ public class HashTableFunctionsTest {
 
     @DataProvider
     private Object[][] stringsForAnagram() {
-        String[] arr1 = new String[] {"a"};
+        String[] arr1 = {"a"};
         List<String> list1 = Arrays.asList(arr1);
         List<List<String>> listOfLists1 = new ArrayList<>();
         listOfLists1.add(list1);
@@ -222,17 +224,17 @@ public class HashTableFunctionsTest {
         for (List<String> strings : result) {
             Collections.sort(strings);
         }
-        Collections.sort(result, new ListComparator<>());
+        result.sort(new ListComparator<>());
         List<List<String>> actual = f.groupAnagrams(str);
         for (List<String> strings : actual) {
             Collections.sort(strings);
         }
-        Collections.sort(actual, new ListComparator<>());
+        actual.sort(new ListComparator<>());
         assertEquals(actual, result);
     }
 
     @DataProvider
-    Object[][] sudokuVariants() {
+    Object[][] sudokuBoards() {
         return new Object[][] {
                 {
                         new char[][]{
@@ -293,7 +295,7 @@ public class HashTableFunctionsTest {
         };
     }
 
-    @Test(dataProvider = "sudokuVariants")
+    @Test(dataProvider = "sudokuBoards")
     public void testIsValidSudoku(char[][] board, boolean valid) {
         assertEquals(f.isValidSudoku(board), valid);
     }
