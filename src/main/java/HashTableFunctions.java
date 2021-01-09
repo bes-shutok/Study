@@ -3,10 +3,48 @@ import java.util.*;
 public class HashTableFunctions {
 
     /*
+     * Runtime: 2 ms
+     * Memory Usage: 39.2 MB
+     * */
+    @SuppressWarnings("unchecked")
+    public boolean isValidSudoku(char[][] board) {
+        if (board.length != 9) return false;
+        Map<Character,Integer>[]
+                rows = new HashMap[board.length],
+                columns = new HashMap[board.length],
+                squares = new HashMap[board.length];
+
+        for (int i = 0; i < board.length; i++) {
+            rows[i] = new HashMap<>();
+            columns[i] = new HashMap<>();
+            squares[i] = new HashMap<>();
+        }
+        char aChar;
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board.length; j++) {
+                aChar = board[i][j];
+                if (aChar != '.') {
+                    rows[i].put(aChar, rows[i].getOrDefault(aChar, 0) + 1);
+                    if (rows[i].get(aChar) > 1)
+                        return false;
+                    columns[j].put(aChar, columns[j].getOrDefault(aChar, 0) + 1);
+                    if (columns[j].get(aChar) > 1)
+                        return false;
+                    int sqIdx = (i / 3)*3 + j / 3;
+                    squares[sqIdx].put(aChar, squares[sqIdx].getOrDefault(aChar, 0) + 1);
+                    if (squares[sqIdx].get(aChar) > 1)
+                        return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /*
     * Runtime: 3 ms
     * Memory Usage: 43.1 MB
     * */
-    public boolean isValidSudoku(char[][] board) {
+    public boolean isValidSudoku1(char[][] board) {
         if (board.length != 9) return false;
         char[] hLine = new char[9];
         for (int i = 0; i < 9; i++) {
