@@ -26,6 +26,7 @@ public class MyBinaryTreeTest {
         };
     }
 
+    @Ignore
     @SuppressWarnings("fallthrough")
     @Test(dataProvider = "creatTreeData")
     public void testCreateTree(List<Integer> inputVals) {
@@ -53,26 +54,25 @@ public class MyBinaryTreeTest {
 
 
         return new Object[][]{
-/*                {
+                {
                         null,
                         new ArrayList<Integer>()
                 },
                 {
                         t.new TreeNode(3),
-                        Arrays.asList(3)
+                        Collections.singletonList(3)
                 },
                 {
                         t.new TreeNode(1,t.new TreeNode(2),null),
                         Arrays.asList(1,2)
-                },*/
+                },
                 {
                         t.createBinaryTree(Arrays.asList(1,null,2,3,null,4)),
-                        Arrays.asList(1,null,2,3,null,4)
+                        Arrays.asList(1,2,3,4)
                 },
         };
     }
 
-    @Ignore
     @Test(dataProvider = "binaryTies")
     public void testPreorderTraversal(MyBinaryTree.TreeNode root, List<Integer> expected) {
         assertEquals(t.preorderTraversal(root),expected);

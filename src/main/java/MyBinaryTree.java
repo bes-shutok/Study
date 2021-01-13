@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MyBinaryTree {
@@ -48,25 +49,32 @@ public class MyBinaryTree {
 
         }*/
 
+    /*
+    * Runtime: 0 ms
+    * Memory Usage: 37.5 MB
+    * */
     public List<Integer>  preorderTraversal(TreeNode root) {
         if (root == null) return new ArrayList<>();
         List<Integer>  preorderValues = new ArrayList<>();
+        HashMap<TreeNode, TreeNode> seen = new HashMap<>();
+        seen.put(root,null);
         preorderValues.add(root.val);
-
-        TreeNode cur = root;
-        while (!cur.equals(findEndNodePO(cur))) {
-            cur = findEndNodePO(cur);
-            preorderValues.add(cur.val);
-        }
+        traversePO(root, seen, preorderValues);
         return preorderValues;
     }
 
-    private TreeNode findEndNodePO(TreeNode root) {
-        if (root.left != null)
-            return findEndNodePO(root.left);
-        else if (root.right != null)
-            return findEndNodePO(root.right);
-        else return root;
+    private void traversePO(TreeNode cur, HashMap<TreeNode, TreeNode> seen, List<Integer> preorderValues) {
+        if (cur.left != null && !seen.containsKey(cur.left)) {
+            preorderValues.add(cur.left.val);
+            seen.put(cur.left,cur);
+            traversePO(cur.left, seen, preorderValues);
+        }
+        if (cur.right != null && !seen.containsKey(cur.right)) {
+            preorderValues.add(cur.right.val);
+            seen.put(cur.right,cur);
+            traversePO(cur.right, seen, preorderValues);
+        }
+        if (seen.get(cur) != null) traversePO(seen.get(cur), seen, preorderValues);
     }
 
 }
