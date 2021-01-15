@@ -49,10 +49,6 @@ public class MyBinaryTreeTest {
     @DataProvider
     private Object[][] binaryTies() {
 
-        List<Integer> list1 = Arrays.asList(1,null,2,3);
-        //Arrays.asList(1,null,2,3,null,4),
-
-
         return new Object[][]{
                 {
                         null,
@@ -73,8 +69,40 @@ public class MyBinaryTreeTest {
         };
     }
 
+    //@Ignore
     @Test(dataProvider = "binaryTies")
     public void testPreorderTraversal(MyBinaryTree.TreeNode root, List<Integer> expected) {
-        assertEquals(t.preorderTraversal(root),expected);
+        List<Integer>  actual = t.preorderTraversal(root);
+        assertEquals(actual,expected);
+    }
+
+    @DataProvider
+    private Object[][] binaryTriesWithNulls() {
+
+        return new Object[][]{
+                {
+                        null,
+                        new ArrayList<Integer>()
+                },
+                {
+                        t.new TreeNode(3),
+                        Collections.singletonList(3)
+                },
+                {
+                        t.new TreeNode(1,t.new TreeNode(2),null),
+                        Arrays.asList(1,2)
+                },
+                {
+                        t.createBinaryTree(Arrays.asList(1,null,2,3,null,4)),
+                        Arrays.asList(1,null,2,3,null,4)
+                },
+        };
+    }
+
+    @Ignore
+    @Test(dataProvider = "binaryTriesWithNulls")
+    public void testPreorderTraversalWithNulls(MyBinaryTree.TreeNode root, List<Integer> expected) {
+        List<Integer>  actual = t.preorderTraversalWithNulls(root);
+        assertEquals(actual,expected);
     }
 }

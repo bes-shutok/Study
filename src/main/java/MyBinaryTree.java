@@ -19,18 +19,19 @@ public class MyBinaryTree {
 
     }
 
+    @SuppressWarnings("AssignmentToForLoopParameter")
     public TreeNode createBinaryTree(List<Integer> treeVals) {
         if (treeVals.isEmpty()) return null;
         int cap = treeVals.size();
         TreeNode root = new TreeNode(treeVals.get(0));
         TreeNode left, right, cur = root;
-        for (int i = 1; i < cap; i+=2) {
+        for (int i = 1; i < cap; i++) {
             left = null;
             right = null;
             if (treeVals.get(i) != null)
                 left = new TreeNode(treeVals.get(i));
-            if (cap > i+1  && treeVals.get(i+1) != null)
-                right = new TreeNode(treeVals.get(i+1));
+            else if (cap > i+1  && treeVals.get(++i) != null)
+                right = new TreeNode(treeVals.get(i));
             cur.left = left;
             cur.right = right;
             cur = getNextRoot(cur);
@@ -77,4 +78,34 @@ public class MyBinaryTree {
         if (seen.get(cur) != null) traversePO(seen.get(cur), seen, preorderValues);
     }
 
+
+    /*
+     * Runtime: 0 ms
+     * Memory Usage: 37.5 MB
+     * */
+    public List<Integer>  preorderTraversalWithNulls(TreeNode root) {
+        if (root == null) return new ArrayList<>();
+        List<Integer>  preorderValues = new ArrayList<>();
+        HashMap<TreeNode, TreeNode> seen = new HashMap<>();
+        seen.put(root,null);
+        preorderValues.add(root.val);
+        traversePOWithNulls(root, seen, preorderValues);
+        while (preorderValues.get(preorderValues.size()-1) == null)
+            preorderValues.remove(preorderValues.size()-1);
+        return preorderValues;
+    }
+
+    private void traversePOWithNulls(TreeNode cur, HashMap<TreeNode, TreeNode> seen, List<Integer> preorderValues) {
+        if (cur.left != null && !seen.containsKey(cur.left)) {
+            preorderValues.add(cur.left.val);
+            seen.put(cur.left,cur);
+            traversePOWithNulls(cur.left, seen, preorderValues);
+        } else if (cur.left == null) preorderValues.add(null);
+        if (cur.right != null && !seen.containsKey(cur.right)) {
+            preorderValues.add(cur.right.val);
+            seen.put(cur.right,cur);
+            traversePOWithNulls(cur.right, seen, preorderValues);
+        } else if (cur.right == null) preorderValues.add(null);
+        if (seen.get(cur) != null) traversePOWithNulls(seen.get(cur), seen, preorderValues);
+    }
 }
