@@ -14,95 +14,72 @@ public class MyBinaryTreeTest {
 
     MyBinaryTree t = new MyBinaryTree();
 
-
     @DataProvider
-    private Object[] creatTreeData() {
-        return new Object[]{
-                new ArrayList<Integer>(),
-                Collections.singletonList(3),
-                //Arrays.asList(1,null,2,3),
-                Arrays.asList(1,2),
-                //Arrays.asList(1,null,2,3,null,4),
-        };
-    }
-
-    @Ignore
-    @SuppressWarnings("fallthrough")
-    @Test(dataProvider = "creatTreeData")
-    public void testCreateTree(List<Integer> inputVals) {
-        MyBinaryTree.TreeNode root = t.createBinaryTree(inputVals);
-        if (inputVals.isEmpty())
-            assertNull(root);
-        else {
-            if (inputVals.size() > 3 ) throw new UnsupportedOperationException();
-            switch (inputVals.size()) {
-                case 3:
-                    assertEquals(root.right == null ? null : root.right.val, inputVals.get(2));
-                case 2:
-                    assertEquals(root.left == null ? null : root.left.val, inputVals.get(1));
-                default:
-                    assertEquals((Integer) root.val, inputVals.get(0));
-            }
-        }
-    }
-
-    @DataProvider
-    private Object[][] binaryTies() {
+    private Object[][] binaryTriesFromPreOrderTraversalListWithNulls() {
 
         return new Object[][]{
                 {
-                        null,
-                        new ArrayList<Integer>()
+                        t.createBinaryTreeFromPreOrderTraversalListWithNulls(new ArrayList<>()),
+                        new ArrayList<>()
                 },
                 {
-                        t.new TreeNode(3),
+                        t.createBinaryTreeFromPreOrderTraversalListWithNulls(Collections.singletonList(3)),
                         Collections.singletonList(3)
                 },
                 {
-                        t.new TreeNode(1,t.new TreeNode(2),null),
+                        t.createBinaryTreeFromPreOrderTraversalListWithNulls(Arrays.asList(1,2)),
                         Arrays.asList(1,2)
                 },
                 {
-                        t.createBinaryTree(Arrays.asList(1,null,2,3,null,4)),
-                        Arrays.asList(1,2,3,4)
+                        t.createBinaryTreeFromPreOrderTraversalListWithNulls(Arrays.asList(1,null,2,3,null,4)),
+                        Arrays.asList(1,null,2,3,null,4)
+                },
+                {
+                        t.createBinaryTreeFromPreOrderTraversalListWithNulls(Arrays.asList(1,2,3,null,4,null,null, 5)),
+                        Arrays.asList(1,2,3,null,4,null,null, 5)
                 },
         };
     }
 
     //@Ignore
-    @Test(dataProvider = "binaryTies")
-    public void testPreorderTraversal(MyBinaryTree.TreeNode root, List<Integer> expected) {
-        List<Integer>  actual = t.preorderTraversal(root);
+    @Test(dataProvider = "binaryTriesFromPreOrderTraversalListWithNulls")
+    public void testCreateBinaryTreeFromPreOrderTraversalListWithNulls(MyBinaryTree.TreeNode root, List<Integer> expected) {
+        List<Integer>  actual = t.preOrderTraversalWithNulls(root);
         assertEquals(actual,expected);
     }
 
     @DataProvider
-    private Object[][] binaryTriesWithNulls() {
+    private Object[][] binaryTriesFromPreOrderTraversalWithNulls() {
 
         return new Object[][]{
                 {
-                        null,
-                        new ArrayList<Integer>()
+                        t.createBinaryTreeFromPreOrderTraversalListWithNulls(new ArrayList<>()),
+                        new ArrayList<>()
                 },
                 {
-                        t.new TreeNode(3),
+                        t.createBinaryTreeFromPreOrderTraversalListWithNulls(Collections.singletonList(3)),
                         Collections.singletonList(3)
                 },
                 {
-                        t.new TreeNode(1,t.new TreeNode(2),null),
+                        t.createBinaryTreeFromPreOrderTraversalListWithNulls(Arrays.asList(1,2)),
                         Arrays.asList(1,2)
                 },
                 {
-                        t.createBinaryTree(Arrays.asList(1,null,2,3,null,4)),
-                        Arrays.asList(1,null,2,3,null,4)
+                        t.createBinaryTreeFromPreOrderTraversalListWithNulls(Arrays.asList(1,null,2,3,null,4)),
+                        Arrays.asList(1,2,3,4)
+                },
+                {
+                        t.createBinaryTreeFromPreOrderTraversalListWithNulls(Arrays.asList(1,null,2,3,null,4,null,null, 5)),
+                        Arrays.asList(1,2,3,4,5)
                 },
         };
     }
 
-    @Ignore
-    @Test(dataProvider = "binaryTriesWithNulls")
-    public void testPreorderTraversalWithNulls(MyBinaryTree.TreeNode root, List<Integer> expected) {
-        List<Integer>  actual = t.preorderTraversalWithNulls(root);
+    //@Ignore
+    @Test(dataProvider = "binaryTriesFromPreOrderTraversalWithNulls")
+    public void testPreOrderTraversal(MyBinaryTree.TreeNode root, List<Integer> expected) {
+        List<Integer>  actual = t.preOrderTraversal(root);
         assertEquals(actual,expected);
     }
+
 }

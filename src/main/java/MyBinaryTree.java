@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class MyBinaryTree {
 
@@ -19,8 +17,53 @@ public class MyBinaryTree {
 
     }
 
+    /**
+     * @param treeVals should follow Pre-order Traversal algorithm (with null when no left child, e.g. {1,null,2})
+     * @return the root node of the binary tree
+     */
     @SuppressWarnings("AssignmentToForLoopParameter")
-    public TreeNode createBinaryTree(List<Integer> treeVals) {
+    public TreeNode createBinaryTreeFromPreOrderTraversalListWithNulls(List<Integer> treeVals) {
+        if (treeVals.isEmpty()) return null;
+        Stack<TreeNode> stack = new Stack<>();
+        int cap = treeVals.size();
+        TreeNode root = new TreeNode(treeVals.get(0));
+        TreeNode cur = root;
+
+        for (int i = 1; i < cap; i++) {
+            if (treeVals.get(i) != null) {
+                cur.left = new TreeNode(treeVals.get(i));
+                stack.push(cur);
+                cur = cur.left;
+            } else {
+                mustHaveNextValue(cap, i+1);
+                cur.left = null;
+                if (treeVals.get(i + 1) != null) {
+                    cur.right = new TreeNode(treeVals.get(++i));
+                    cur = cur.right;
+                } else {
+                    cur.right = null;
+                    mustHaveNextValue(cap, i+2);
+                    cur = stack.pop();
+                    cur.right = new TreeNode(treeVals.get(i+2));
+                    i = i + 2;
+                }
+            }
+        }
+        return root;
+    }
+
+    private void mustHaveNextValue(int cap, int i) {
+        if (cap == i) {
+            throw new UnsupportedOperationException("supplied list is malformed, last element cannot be null");
+        }
+    }
+
+    /**
+     * @param treeVals should follow Pre-order Traversal algorithm (with null when no left child, e.g. {1,null,2})
+     * @return the root node of the binary tree
+     */
+    @SuppressWarnings("AssignmentToForLoopParameter")
+    public TreeNode createBinaryTreePreOrderTraversal2(List<Integer> treeVals) {
         if (treeVals.isEmpty()) return null;
         int cap = treeVals.size();
         TreeNode root = new TreeNode(treeVals.get(0));
@@ -34,13 +77,13 @@ public class MyBinaryTree {
                 right = new TreeNode(treeVals.get(i));
             cur.left = left;
             cur.right = right;
-            cur = getNextRoot(cur);
+            cur = getNextRootPreOrder(cur);
             if (cur == null) cur = root;
         }
         return root;
     }
 
-    private TreeNode getNextRoot(TreeNode cur) {
+    private TreeNode getNextRootPreOrder(TreeNode cur) {
         if (cur.left != null) return cur.left;
         if (cur.right != null) return cur.right;
         return null;
@@ -51,48 +94,93 @@ public class MyBinaryTree {
         }*/
 
     /*
+     * Runtime: 0 ms
+     * Memory Usage: 37.2 MB
+     * */
+    public List<Integer> preOrderTraversal(TreeNode root) {
+        LinkedList<Integer> result = new LinkedList<>();
+        if (root == null) return result;
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(root);
+
+        while (!stack.isEmpty()) {
+            TreeNode cur = stack.pop();
+            result.add(cur.val);
+            if (cur.right != null) stack.push(cur.right);
+            if (cur.left != null) stack.push(cur.left);
+        }
+        return result;
+    }
+
+    /*
     * Runtime: 0 ms
     * Memory Usage: 37.5 MB
     * */
-    public List<Integer>  preorderTraversal(TreeNode root) {
+    public List<Integer> preOrderTraversal2(TreeNode root) {
         if (root == null) return new ArrayList<>();
         List<Integer>  preorderValues = new ArrayList<>();
         HashMap<TreeNode, TreeNode> seen = new HashMap<>();
         seen.put(root,null);
         preorderValues.add(root.val);
-        traversePO(root, seen, preorderValues);
+        traversePreOrder(root, seen, preorderValues);
         return preorderValues;
     }
 
-    private void traversePO(TreeNode cur, HashMap<TreeNode, TreeNode> seen, List<Integer> preorderValues) {
+    private void traversePreOrder(TreeNode cur, HashMap<TreeNode, TreeNode> seen, List<Integer> preorderValues) {
         if (cur.left != null && !seen.containsKey(cur.left)) {
             preorderValues.add(cur.left.val);
             seen.put(cur.left,cur);
-            traversePO(cur.left, seen, preorderValues);
+            traversePreOrder(cur.left, seen, preorderValues);
         }
         if (cur.right != null && !seen.containsKey(cur.right)) {
             preorderValues.add(cur.right.val);
             seen.put(cur.right,cur);
-            traversePO(cur.right, seen, preorderValues);
+            traversePreOrder(cur.right, seen, preorderValues);
         }
-        if (seen.get(cur) != null) traversePO(seen.get(cur), seen, preorderValues);
+        if (seen.get(cur) != null) traversePreOrder(seen.get(cur), seen, preorderValues);
     }
 
 
-    /*
-     * Runtime: 0 ms
-     * Memory Usage: 37.5 MB
-     * */
-    public List<Integer>  preorderTraversalWithNulls(TreeNode root) {
+    public List<Integer> preOrderTraversalWithNulls(TreeNode root) {
+        LinkedList<Integer> result = new LinkedList<>();
+        if (root == null) return result;
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(root);
+
+        while (!stack.isEmpty()) {
+            TreeNode cur = stack.pop();
+            if (cur != null) {
+                result.add(cur.val);
+                if (cur.right != null)
+                    stack.push(cur.right);
+                else
+                    stack.push(null);
+                if (cur.left != null)
+                    stack.push(cur.left);
+                else
+                    stack.push(null);
+            } else {
+                result.add(null);
+            }
+        }
+
+        return removeTrailingNulls(result);
+    }
+
+    private List<Integer> removeTrailingNulls(List<Integer> result) {
+        while (result.get(result.size()-1) == null)
+            result.remove(result.size()-1);
+        return result;
+    }
+
+    public List<Integer>  preorderTraversalWithNulls2(TreeNode root) {
         if (root == null) return new ArrayList<>();
         List<Integer>  preorderValues = new ArrayList<>();
         HashMap<TreeNode, TreeNode> seen = new HashMap<>();
         seen.put(root,null);
         preorderValues.add(root.val);
         traversePOWithNulls(root, seen, preorderValues);
-        while (preorderValues.get(preorderValues.size()-1) == null)
-            preorderValues.remove(preorderValues.size()-1);
-        return preorderValues;
+        return removeTrailingNulls(preorderValues);
     }
 
     private void traversePOWithNulls(TreeNode cur, HashMap<TreeNode, TreeNode> seen, List<Integer> preorderValues) {
