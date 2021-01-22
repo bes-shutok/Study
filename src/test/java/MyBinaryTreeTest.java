@@ -1,5 +1,4 @@
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
@@ -15,7 +14,7 @@ public class MyBinaryTreeTest {
     MyBinaryTree t = new MyBinaryTree();
 
     @DataProvider
-    private Object[][] binaryTriesFromPreOrderTraversalListWithNulls() {
+    private Object[][] binaryTriesFromPreorderTraversalListWithNulls() {
 
         return new Object[][]{
                 {
@@ -41,15 +40,14 @@ public class MyBinaryTreeTest {
         };
     }
 
-    //@Ignore
-    @Test(dataProvider = "binaryTriesFromPreOrderTraversalListWithNulls")
-    public void testCreateBinaryTreeFromPreOrderTraversalListWithNulls(MyBinaryTree.TreeNode root, List<Integer> expected) {
-        List<Integer>  actual = t.preOrderTraversalWithNulls(root);
+    @Test(dataProvider = "binaryTriesFromPreorderTraversalListWithNulls")
+    public void testCreateBinaryTreeFromPreorderTraversalListWithNulls(MyBinaryTree.TreeNode root, List<Integer> expected) {
+        List<Integer>  actual = t.preorderTraversalWithNulls(root);
         assertEquals(actual,expected);
     }
 
     @DataProvider
-    private Object[][] binaryTriesFromPreOrderTraversalWithNulls() {
+    private Object[][] binaryTriesFromPreorderTraversalWithNulls() {
 
         return new Object[][]{
                 {
@@ -75,10 +73,9 @@ public class MyBinaryTreeTest {
         };
     }
 
-    //@Ignore
-    @Test(dataProvider = "binaryTriesFromPreOrderTraversalWithNulls")
-    public void testPreOrderTraversal(MyBinaryTree.TreeNode root, List<Integer> expected) {
-        List<Integer>  actual = t.preOrderTraversal(root);
+    @Test(dataProvider = "binaryTriesFromPreorderTraversalWithNulls")
+    public void testPreorderTraversal(MyBinaryTree.TreeNode root, List<Integer> expected) {
+        List<Integer>  actual = t.preorderTraversal(root);
         assertEquals(actual,expected);
     }
 

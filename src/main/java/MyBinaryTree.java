@@ -89,15 +89,33 @@ public class MyBinaryTree {
         return null;
     }
 
-/*        public List<TreeNode> findDuplicateSubtrees(TreeNode root) {
+    /*        public List<TreeNode> findDuplicateSubtrees(TreeNode root) {
 
-        }*/
+        }
+    */
+
+    /*
+     * Runtime: 0 ms
+     * Memory Usage: 37.1 MB
+     * */
+    public List<Integer> preorderTraversal(TreeNode root) {
+        if (root == null) return new ArrayList<>();
+        List<Integer> preorderValues = new ArrayList<>();
+        traversePreorder(root, preorderValues);
+        return preorderValues;
+    }
+
+    private void traversePreorder(TreeNode cur, List<Integer> preorderValues) {
+        preorderValues.add(cur.val);
+        if (cur.left != null ) traversePreorder(cur.left, preorderValues);
+        if (cur.right != null) traversePreorder(cur.right, preorderValues);
+    }
 
     /*
      * Runtime: 0 ms
      * Memory Usage: 37.2 MB
      * */
-    public List<Integer> preOrderTraversal(TreeNode root) {
+    public List<Integer> preorderTraversal3(TreeNode root) {
         LinkedList<Integer> result = new LinkedList<>();
         if (root == null) return result;
         Stack<TreeNode> stack = new Stack<>();
@@ -116,32 +134,32 @@ public class MyBinaryTree {
     * Runtime: 0 ms
     * Memory Usage: 37.5 MB
     * */
-    public List<Integer> preOrderTraversal2(TreeNode root) {
+    public List<Integer> preorderTraversal2(TreeNode root) {
         if (root == null) return new ArrayList<>();
         List<Integer>  preorderValues = new ArrayList<>();
         HashMap<TreeNode, TreeNode> seen = new HashMap<>();
         seen.put(root,null);
         preorderValues.add(root.val);
-        traversePreOrder(root, seen, preorderValues);
+        traversePreorder2(root, seen, preorderValues);
         return preorderValues;
     }
 
-    private void traversePreOrder(TreeNode cur, HashMap<TreeNode, TreeNode> seen, List<Integer> preorderValues) {
+    private void traversePreorder2(TreeNode cur, HashMap<TreeNode, TreeNode> seen, List<Integer> preorderValues) {
         if (cur.left != null && !seen.containsKey(cur.left)) {
             preorderValues.add(cur.left.val);
             seen.put(cur.left,cur);
-            traversePreOrder(cur.left, seen, preorderValues);
+            traversePreorder2(cur.left, seen, preorderValues);
         }
         if (cur.right != null && !seen.containsKey(cur.right)) {
             preorderValues.add(cur.right.val);
             seen.put(cur.right,cur);
-            traversePreOrder(cur.right, seen, preorderValues);
+            traversePreorder2(cur.right, seen, preorderValues);
         }
-        if (seen.get(cur) != null) traversePreOrder(seen.get(cur), seen, preorderValues);
+        if (seen.get(cur) != null) traversePreorder2(seen.get(cur), seen, preorderValues);
     }
 
 
-    public List<Integer> preOrderTraversalWithNulls(TreeNode root) {
+    public List<Integer> preorderTraversalWithNulls(TreeNode root) {
         LinkedList<Integer> result = new LinkedList<>();
         if (root == null) return result;
         Stack<TreeNode> stack = new Stack<>();
