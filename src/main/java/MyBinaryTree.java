@@ -22,7 +22,7 @@ public class MyBinaryTree {
      * @return the root node of the binary tree
      */
     @SuppressWarnings("AssignmentToForLoopParameter")
-    public TreeNode createBinaryTreeFromPreOrderTraversalListWithNulls(List<Integer> treeVals) {
+    public TreeNode binaryTreeFromPrOListWithNulls(List<Integer> treeVals) {
         if (treeVals.isEmpty()) return null;
         Stack<TreeNode> stack = new Stack<>();
         int cap = treeVals.size();
@@ -63,7 +63,7 @@ public class MyBinaryTree {
      * @return the root node of the binary tree
      */
     @SuppressWarnings("AssignmentToForLoopParameter")
-    public TreeNode createBinaryTreePreOrderTraversal2(List<Integer> treeVals) {
+    public TreeNode binaryTreeFromPrOListWithNulls2(List<Integer> treeVals) {
         if (treeVals.isEmpty()) return null;
         int cap = treeVals.size();
         TreeNode root = new TreeNode(treeVals.get(0));
@@ -93,6 +93,23 @@ public class MyBinaryTree {
 
         }
     */
+
+    /*
+    * Runtime: 0 ms
+    * Memory Usage: 37.4 MB
+    * */
+    public List<Integer> inorderTraversal(TreeNode root) {
+        if (root == null) return new ArrayList<>();
+        List<Integer> inorderValues = new ArrayList<>();
+        traverseInorder(root, inorderValues);
+        return inorderValues;
+    }
+
+    private void traverseInorder(TreeNode cur, List<Integer> inorderValues) {
+        if (cur.left != null) traverseInorder(cur.left, inorderValues);
+        inorderValues.add(cur.val);
+        if (cur.right != null) traverseInorder(cur.right, inorderValues);
+    }
 
     /*
      * Runtime: 0 ms

@@ -18,24 +18,64 @@ public class MyBinaryTreeTest {
 
         return new Object[][]{
                 {
-                        t.createBinaryTreeFromPreOrderTraversalListWithNulls(new ArrayList<>()),
+                        t.binaryTreeFromPrOListWithNulls(new ArrayList<>()),
                         new ArrayList<>()
                 },
                 {
-                        t.createBinaryTreeFromPreOrderTraversalListWithNulls(Collections.singletonList(3)),
+                        t.binaryTreeFromPrOListWithNulls(Collections.singletonList(3)),
                         Collections.singletonList(3)
                 },
                 {
-                        t.createBinaryTreeFromPreOrderTraversalListWithNulls(Arrays.asList(1,2)),
-                        Arrays.asList(1,2)
+                        t.binaryTreeFromPrOListWithNulls(Arrays.asList(1, 2)),
+                        Arrays.asList(1, 2)
+                        /*
+                        *   1
+                        *  /
+                        * 2
+                        *
+                        * */
                 },
                 {
-                        t.createBinaryTreeFromPreOrderTraversalListWithNulls(Arrays.asList(1,null,2,3,null,4)),
-                        Arrays.asList(1,null,2,3,null,4)
+                        t.binaryTreeFromPrOListWithNulls(Arrays.asList(1, null, 2, 3, null, 4)),
+                        Arrays.asList(1, null, 2, 3, null, 4)
+                        /*
+                        *    1
+                        *     \
+                        *      2
+                        *     /
+                        *    3
+                        *     \
+                        *      4
+                        *
+                        * */
                 },
                 {
-                        t.createBinaryTreeFromPreOrderTraversalListWithNulls(Arrays.asList(1,2,3,null,4,null,null, 5)),
-                        Arrays.asList(1,2,3,null,4,null,null, 5)
+                        t.binaryTreeFromPrOListWithNulls(Arrays.asList(1, 2, 3, null, 4, null, null, 5)),
+                        Arrays.asList(1, 2, 3, null, 4, null, null, 5)
+                        /*
+                        *       1
+                        *      /
+                        *      2
+                        *     / \
+                        *    3   5
+                        *     \
+                        *      4
+                        *
+                        * */
+                },
+                {
+                        t.binaryTreeFromPrOListWithNulls(Arrays.asList(1, null, 2, 3, null, 4, null, null,5)),
+                        Arrays.asList(1, null, 2, 3, null, 4, null, null, 5)
+                        /*
+                        *    1
+                        *     \
+                        *      2
+                        *     / \
+                        *    3   5
+                        *     \
+                        *      4
+                        *
+                        * */
                 },
         };
     }
@@ -51,24 +91,64 @@ public class MyBinaryTreeTest {
 
         return new Object[][]{
                 {
-                        t.createBinaryTreeFromPreOrderTraversalListWithNulls(new ArrayList<>()),
+                        t.binaryTreeFromPrOListWithNulls(new ArrayList<>()),
                         new ArrayList<>()
                 },
                 {
-                        t.createBinaryTreeFromPreOrderTraversalListWithNulls(Collections.singletonList(3)),
+                        t.binaryTreeFromPrOListWithNulls(Collections.singletonList(3)),
                         Collections.singletonList(3)
                 },
                 {
-                        t.createBinaryTreeFromPreOrderTraversalListWithNulls(Arrays.asList(1,2)),
-                        Arrays.asList(1,2)
+                        t.binaryTreeFromPrOListWithNulls(Arrays.asList(1, 2)),
+                        Arrays.asList(1, 2)
+                        /*
+                        *   1
+                        *  /
+                        * 2
+                        *
+                        * */
                 },
                 {
-                        t.createBinaryTreeFromPreOrderTraversalListWithNulls(Arrays.asList(1,null,2,3,null,4)),
-                        Arrays.asList(1,2,3,4)
+                        t.binaryTreeFromPrOListWithNulls(Arrays.asList(1, null, 2, 3, null, 4)),
+                        Arrays.asList(1, 2, 3, 4)
+                        /*
+                        *    1
+                        *     \
+                        *      2
+                        *     /
+                        *    3
+                        *     \
+                        *      4
+                        *
+                        * */
                 },
                 {
-                        t.createBinaryTreeFromPreOrderTraversalListWithNulls(Arrays.asList(1,null,2,3,null,4,null,null, 5)),
-                        Arrays.asList(1,2,3,4,5)
+                        t.binaryTreeFromPrOListWithNulls(Arrays.asList(1, 2, 3, null, 4, null, null, 5)),
+                        Arrays.asList(1, 2, 3, 4, 5)
+                        /*
+                        *       1
+                        *      /
+                        *      2
+                        *     / \
+                        *    3   5
+                        *     \
+                        *      4
+                        *
+                        * */
+                },
+                {
+                        t.binaryTreeFromPrOListWithNulls(Arrays.asList(1, null, 2, 3, null, 4, null, null, 5)),
+                        Arrays.asList(1, 2, 3, 4, 5)
+                        /*
+                        *    1
+                        *     \
+                        *      2
+                        *     / \
+                        *    3   5
+                        *     \
+                        *      4
+                        *
+                        * */
                 },
         };
     }
@@ -79,4 +159,78 @@ public class MyBinaryTreeTest {
         assertEquals(actual,expected);
     }
 
+
+    @DataProvider
+    private Object[][] binaryTriesFromInorderTraversalWithNulls() {
+
+        return new Object[][]{
+                {
+                        t.binaryTreeFromPrOListWithNulls(new ArrayList<>()),
+                        new ArrayList<>()
+                },
+                {
+                        t.binaryTreeFromPrOListWithNulls(Collections.singletonList(3)),
+                        Collections.singletonList(3)
+                },
+                {
+                        t.binaryTreeFromPrOListWithNulls(Arrays.asList(1,2)),
+                        Arrays.asList(2,1)
+                        /*
+                        *   1
+                        *  /
+                        * 2
+                        *
+                        * */
+                },
+                {
+                        t.binaryTreeFromPrOListWithNulls(Arrays.asList(1, null, 2, 3, null, 4)),
+                        Arrays.asList(1,3,4,2)
+                        /*
+                        *    1
+                        *     \
+                        *      2
+                        *     /
+                        *    3
+                        *     \
+                        *      4
+                        *
+                        * */
+                },
+                {
+                        t.binaryTreeFromPrOListWithNulls(Arrays.asList(1, 2, 3, null, 4, null, null, 5)),
+                        Arrays.asList(3,4,2,5,1)
+                        /*
+                        *       1
+                        *      /
+                        *      2
+                        *     / \
+                        *    3   5
+                        *     \
+                        *      4
+                        *
+                        * */
+                },
+                {
+                        t.binaryTreeFromPrOListWithNulls(Arrays.asList(1, null, 2, 3, null, 4, null, null, 5)),
+                        Arrays.asList(1,3,4,2,5)
+                        /*
+                        *    1
+                        *     \
+                        *      2
+                        *     / \
+                        *    3   5
+                        *     \
+                        *      4
+                        *
+                        * */
+                },
+
+        };
+    }
+
+    @Test(dataProvider = "binaryTriesFromInorderTraversalWithNulls")
+    public void testInorderTraversal(MyBinaryTree.TreeNode root, List<Integer> expected) {
+        List<Integer>  actual = t.inorderTraversal(root);
+        assertEquals(actual,expected);
+    }
 }
